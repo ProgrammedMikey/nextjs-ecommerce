@@ -7,10 +7,12 @@ const ProductItem = ({product}) => {
             <>
                 <Link href={`product/${product._id}`}>
                     <a className="btn btn-info" 
-                    style={{ marginRight: '5px', flex:1 }}>View</a>
+                    style={{ marginRight: '5px', flex:1 }}>
+                        View
+                    </a>
                 </Link>
                <button className="btn btn-success"
-               style={{ marginLeft: '5px', flex:1 }}>
+                style={{ marginLeft: '5px', flex:1 }}>
                    Buy
                </button>
             </>
@@ -38,8 +40,8 @@ const ProductItem = ({product}) => {
                 </p>
 
                 <div className="row justify-content-between mx-0">
-                <a href="#" className="btn btn-primary">Go somewhere</a>
-                    {useLink()}
+                {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                    {userLink()}
                 </div>
             </div>
         </div>

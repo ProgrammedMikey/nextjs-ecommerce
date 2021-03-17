@@ -26,9 +26,6 @@ const Home = (props) => {
 
 export async function getServerSideProps(context) {
   const res = await getData('product')
-  console.log(res)
-  //server side rendering
-
 
   return {
     props: {
