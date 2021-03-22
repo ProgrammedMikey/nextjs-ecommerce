@@ -11,6 +11,7 @@ class MyDocument extends Document {
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
                     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
                     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+                    <script src={`https://www.paypal.com/sdk/js?client-id=${process.env.PAYPAL_CLIENT_ID}`}></script>
                 </Head>
                 <body>
                     <Main />
