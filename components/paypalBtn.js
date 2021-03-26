@@ -1,9 +1,12 @@
-import { useEffect, useRef } from 'react' 
-import { postData } from '../utils/fetchData'
+import { useEffect, useRef, useContext } from 'react' 
+import { patchData } from '../utils/fetchData'
+import {DataContext} from '../store/GlobalState'
+import {updateItem} from '../store/Actions'
 
-const paypalBtn = ({total, address, mobile, state, dispatch}) => {
+const paypalBtn = ({order}) => {
     const refPaypalBtn = useRef() 
-    const { cart, auth, orders } = state 
+    const {state, dispatch} = useContext(DataContext)
+    const { auth, orders } = state 
     
     useEffect(() => {
         paypal.Buttons({
@@ -12,28 +15,25 @@ const paypalBtn = ({total, address, mobile, state, dispatch}) => {
               return actions.order.create({
                 purchase_units: [{
                   amount: {
-                    value: total
+                    value: order.total
                   }
                 }]
               });
             },
             onApprove: function(data, actions) {
               // This function captures the funds from the transaction.
-              return actions.order.capture().then(function(details) {
-                dispatch({ type: 'NOTIFY', payload: {loading: true} })
+              dispatch({ type: 'NOTIFY', payload: {loading: true} })
 
-                postData('order', {address, mobile, cart, total}, auth.token)
+              return actions.order.capture().then(function(details) {
+
+                patchData(`order/${order._id}`, null, auth.token)
                 .then(res => {
                   if(res.err) return dispatch ({ type: 'NOTIFY', payload: {error: res.err} })
                   
-                  dispatch({ type: 'ADD_CART', payload: [] })
-
-                  const newOrder = {
-                    ...res.newOrder,
-                    user: auth.user
-                  }
-
-                  dispatch({ type: 'ADD_ORDERS', payload: [...orders, newOrder] })
+                  dispatch(updateItem(orders, order._id, {
+                    ...order, paid: true, dateOfPayment: new Date().toISOString()
+                  }, 'ADD_ORDERS'))
+                  
                   return dispatch ({ type: 'NOTIFY', payload: {success: res.msg} })
                 })
 
