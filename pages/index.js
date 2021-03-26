@@ -24,7 +24,7 @@ const Home = (props) => {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({query}) {
   const res = await getData('product')
 
   return {

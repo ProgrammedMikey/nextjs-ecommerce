@@ -1,7 +1,7 @@
 export const imageUpload = async (images) => {
     let imgArr = [] 
     for(const item of images){
-        const formData = newFormData() 
+        const formData = new FormData() 
         formData.append("file", item)
         formData.append("upload_preset", process.env.CLOUD_UPDATE_PRESET)
         formData.append("cloud_name", process.env.CLOUD_NAME)
