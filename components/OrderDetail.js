@@ -25,6 +25,8 @@ const OrderDetail = ({orderDetail}) => {
                         </div>
 
                         <h3>Payment</h3>
+                        <h6>Mehtod: {order.method}</h6>
+                        <p>PaymentId: {order.paymentId}</p>
                         <div className={`alert ${order.paid ? 'alert-success' : 'alert-danger'}
                         d-flex justify-content-between align-items-center`} role="alert">
                             {
@@ -62,7 +64,7 @@ const OrderDetail = ({orderDetail}) => {
 
               {
                   !order.paid && 
-                  <div class="p-4">
+                  <div className="p-4">
                     <h2 className="mb-4 text-uppercase">Total: ${order.total}</h2>
                     <PaypalBtn order={order} />
                   </div>
