@@ -21,7 +21,6 @@ const deliveredOrder = async(req, res) => {
         return res.status(400).json({err: 'Authentication is not valid.'})
 
         const {id} = req.query;
-        const { delivered } = req.body
 
         const order = await Orders.findOne({ _id: id })
         if(order.paid){
