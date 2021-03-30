@@ -23,6 +23,7 @@ function Navbar() {
         localStorage.removeItem('firstLogin')
         dispatch({ type: 'AUTH', payload: {} })
         dispatch({ type: 'NOTIFY', payload: {success: 'Logged out!'} })
+        return router.push('/')
     }
 
     const adminRouter = () => {

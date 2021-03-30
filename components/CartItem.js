@@ -44,7 +44,7 @@ const CartItem = ({item, dispatch, cart}) => {
                style={{fontSize: '18px'}} data-toggle="modal" data-target="#exampleModal"
                onClick={() => dispatch({
                    type: 'ADD_MODAL', 
-                   payload: { data: cart, id: item._id, title: item.title }
+                   payload: { data: cart, id: item._id, title: item.title, type: 'ADD_CART' }
                })}></i>
             </td>
         </tr>
