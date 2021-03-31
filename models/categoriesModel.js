@@ -6,9 +6,9 @@ const CategoriesSchema = new mongoose.Schema({
         required: true,
         trim: true
     }
-},  {
-        timestamps: true
+}, {
+    timestamps: true
 })
 
-let Dataset = mongoose.models.order || mongoose.model('categories', CategoriesSchema)
+let Dataset = mongoose.models.categories || mongoose.model('categories', CategoriesSchema)
 export default Dataset

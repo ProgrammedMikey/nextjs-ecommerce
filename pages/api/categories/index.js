@@ -1,30 +1,28 @@
 import connectDB from '../../../utils/connectDB'
-import Categories from '../../../models/categoriesModal'
 import auth from '../../../middleware/auth'
-
+import Categories from '../../../models/categoriesModel'
 
 connectDB()
 
-
 export default async (req, res) => {
     switch(req.method){
-        case "POST": 
-            await createCategories(req, res)
+        case "POST":
+            await createCategory(req, res)
             break;
-        case "GET": 
+        case "GET":
             await getCategories(req, res)
             break;
     }
 }
 
-const createCategories = async (req, res) => {
+const createCategory = async (req, res) => {
     try {
         const result = await auth(req, res)
         if(result.role !== 'admin')
         return res.status(400).json({err: "Authentication is not valid."})
 
-        const { name } = req.body 
-        if(!name) return res.status(400).json({err: "Name can not be left black."})
+        const { name } = req.body
+        if(!name) return res.status(400).json({err: "Name can not be left blank."})
 
         const newCategory = new Categories({name})
 
@@ -42,7 +40,7 @@ const createCategories = async (req, res) => {
 const getCategories = async (req, res) => {
     try {
         const categories = await Categories.find()
-     
+
         res.json({categories})
 
     } catch (err) {
