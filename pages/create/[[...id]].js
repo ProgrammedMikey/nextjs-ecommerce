@@ -15,7 +15,7 @@ const ProductsManager = () => {
     const [product, setProduct] = useState(initialState)
     const {product_id, title, price, inStock, description, content, category} = product
 
-    [images, setImages] = useState([])
+    const [images, setImages] = useState([])
 
     const {state, dispatch} = useContext(DataContext)
     const {categories} = state
@@ -28,30 +28,30 @@ const ProductsManager = () => {
 
     const handleUploadInput = e => {
         dispatch({type: 'NOTIFY', payload: {}})
-        let newImages = [] 
-        let num = 0 
-        let err = '' 
-        const files = [...e.target.files] 
+        let newImages = []
+        let num = 0
+        let err = ''
+        const files = [...e.target.files]
 
         if(files.length === 0) 
         return dispatch({type: 'NOTIFY', payload: {error: 'Files does not exist.'}})
 
         files.forEach(file => {
-            if(file.size > 1024 * 1024) 
-            return err = 'The largest image size is 1mb' 
+            if(file.size > 1024 * 1024)
+            return err = 'The largest image size is 1mb'
 
             if(file.type !== 'image/jpeg' && file.type !== 'image/png')
-            return err ='Image format is incorrect.'
+            return err = 'Image format is incorrect.'
 
             num += 1;
-            if(num <= 5) newImages.push(file) 
-            return newImages
+            if(num <= 5) newImages.push(file)
+            return newImages;
         })
 
         if(err) dispatch({type: 'NOTIFY', payload: {error: err}})
 
         const imgCount = images.length
-        if(imgCount + newImages.length > 5) 
+        if(imgCount + newImages.length > 5)
         return dispatch({type: 'NOTIFY', payload: {error: 'Select up to 5 images.'}})
         setImages([...images, ...newImages])
     }
@@ -122,12 +122,12 @@ const ProductsManager = () => {
                         <div className="input-group-prepend">
                             <span className="input-group-text">Upload</span>
                         </div>
-
                         <div className="custom-file border rounded">
                             <input type="file" className="custom-file-input"
                             onChange={handleUploadInput} multiple accept="image/*" />
-                        </div>    
-                    </div>
+                        </div>
+
+                    </div> 
 
                     <div className="row img-up mx-0">
                         {
