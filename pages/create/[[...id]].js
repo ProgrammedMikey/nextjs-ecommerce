@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import {useState, useContext, useEffect} from 'react' 
+import {useState, useContext, useEffect} from 'react'
 import {DataContext} from '../../store/GlobalState'
 import {imageUpload} from '../../utils/imageUpload'
 import {postData, getData, putData} from '../../utils/fetchData'
@@ -25,25 +25,25 @@ const ProductsManager = () => {
     const router = useRouter()
     const {id} = router.query
     const [onEdit, setOnEdit] = useState(false)
-    
+
     useEffect(() => {
         if(id){
             setOnEdit(true)
             getData(`product/${id}`).then(res => {
-                setProduct(res.product) 
+                setProduct(res.product)
                 setImages(res.product.images)
             })
-        }else {
-            setOnEdit(false) 
-            setProduct(initialState) 
+        }else{
+            setOnEdit(false)
+            setProduct(initialState)
             setImages([])
         }
-    }, [id])
+    },[id])
 
     const handleChangeInput = e => {
-        const {name, value} = e.target 
+        const {name, value} = e.target
         setProduct({...product, [name]:value})
-        dispatch({type: 'NOTIFY', payload: {} })
+        dispatch({type: 'NOTIFY', payload: {}})
     }
 
     const handleUploadInput = e => {
@@ -77,19 +77,20 @@ const ProductsManager = () => {
     }
 
     const deleteImage = index => {
-        const newArr = [...images] 
+        const newArr = [...images]
         newArr.splice(index, 1)
         setImages(newArr)
     }
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        if(auth.user.role !== 'admin')
+        if(auth.user.role !== 'admin') 
         return dispatch({type: 'NOTIFY', payload: {error: 'Authentication is not valid.'}})
-   
+
         if(!title || !price || !inStock || !description || !content || category === 'all' || images.length === 0)
         return dispatch({type: 'NOTIFY', payload: {error: 'Please add all the fields.'}})
 
+    
         dispatch({type: 'NOTIFY', payload: {loading: true}})
         let media = []
         const imgNewURL = images.filter(img => !img.url)
@@ -101,50 +102,50 @@ const ProductsManager = () => {
         if(onEdit){
             res = await putData(`product/${id}`, {...product, images: [...imgOldURL, ...media]}, auth.token)
             if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
-        }else {
+        }else{
             res = await postData('product', {...product, images: [...imgOldURL, ...media]}, auth.token)
             if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
         }
 
         return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
+        
     }
 
     return(
         <div className="products_manager">
             <Head>
-               <title>Products Manager</title> 
+                <title>Products Manager</title>
             </Head>
-
             <form className="row" onSubmit={handleSubmit}>
                 <div className="col-md-6">
-
-                    <input type="text" name="title" value={title} 
+                    
+                    <input type="text" name="title" value={title}
                     placeholder="Title" className="d-block my-4 w-100 p-2"
                     onChange={handleChangeInput} />
 
                     <div className="row">
                         <div className="col-sm-6">
                             <label htmlFor="price">Price</label>
-                            <input type="number" name="price" value={price} 
+                            <input type="number" name="price" value={price}
                             placeholder="Price" className="d-block w-100 p-2"
                             onChange={handleChangeInput} />
                         </div>
 
                         <div className="col-sm-6">
-                        <label htmlFor="inStock">In Stock</label>
-                            <input type="number" name="inStock" value={inStock} 
-                            placeholder="Stock" className="d-block w-100 p-2"
+                            <label htmlFor="price">In Stock</label>
+                            <input type="number" name="inStock" value={inStock}
+                            placeholder="inStock" className="d-block w-100 p-2"
                             onChange={handleChangeInput} />
                         </div>
                     </div>
 
-                    <textarea name="description" id="description" cols="30" rows="4" 
-                    placeholder="Description" className="d-block my-4 w-100 p-2"
-                    onChange={handleChangeInput} value={description} />
+                    <textarea name="description" id="description" cols="30" rows="4"
+                    placeholder="Description" onChange={handleChangeInput}
+                    className="d-block my-4 w-100 p-2" value={description} />
 
-                    <textarea name="content" id="content" cols="30" rows="6" 
-                    placeholder="Content" className="d-block my-4 w-100 p-2"
-                    onChange={handleChangeInput} value={content} />
+                    <textarea name="content" id="content" cols="30" rows="6"
+                    placeholder="Content" onChange={handleChangeInput}
+                    className="d-block my-4 w-100 p-2" value={content} />
 
                     <div className="input-group-prepend px-0 my-2">
                         <select name="category" id="category" value={category}
@@ -161,12 +162,11 @@ const ProductsManager = () => {
                     </div>
 
                     <button type="submit" className="btn btn-info my-2 px-4">
-                         {onEdit ? 'Update' : 'Create'}
+                        {onEdit ? 'Update': 'Create'}
                     </button>
 
                 </div>
 
-                
                 <div className="col-md-6 my-4">
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
@@ -190,12 +190,15 @@ const ProductsManager = () => {
                                 </div>
                             ))
                         }
-                    </div>    
+                    </div>
+                        
 
                 </div>
 
+               
             </form>
 
+            
         </div>
     )
 }

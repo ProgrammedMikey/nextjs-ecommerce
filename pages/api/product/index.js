@@ -2,15 +2,15 @@ import connectDB from '../../../utils/connectDB'
 import Products from '../../../models/productModel'
 import auth from '../../../middleware/auth'
 
-connectDB() 
+connectDB()
 
 export default async (req, res) => {
-    switch(req.method) {
-        case "GET": 
-            await getProducts(req,res)
+    switch(req.method){
+        case "GET":
+            await getProducts(req, res)
             break;
-        case "POST": 
-            await createProduct(req,res)
+        case "POST":
+            await createProduct(req, res)
             break;
     }
 }
@@ -18,7 +18,6 @@ export default async (req, res) => {
 const getProducts = async (req, res) => {
     try {
         const products = await Products.find() 
-
         res.json({
             status: 'success',
             result: products.length,
